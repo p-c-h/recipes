@@ -9,19 +9,25 @@
   </head>
   <body>
     <h2>Ingredients:</h2>
-    <form id="findRecipes">
-      <% for (let i = 0; i < ingredients.length; i++) { %>
-        <input type="checkbox" value="<%= ingredients[i].name %>" <% if (ingredients[i].inStock) { %>checked<% } %> />
-        <%= ingredients[i].name %>
-        <br>
-      <% } %>
-      <input type="text">
-      <input type="submit" value="Szukaj">
-    </form>
-
-    <% if (typeof user === 'undefined') { %>
-      <p>Hello</p>
+    <% if (errors.length) {
+      errors.forEach((err) => console.error(err));
+    } %>
+    <% if (typeof ingredients === "undefined") { %>
+      <p>Something went wrong while getting the ingredient list.</p>
+    <% } else if (!ingredients.length) { %>
+      <p>Ingredient list empty. Add some ingredients!</p>
+    <% } else { %>
+        <form id="findRecipesForm">
+          <% for (let i = 0; i < ingredients.length; i++) { %>
+            <input type="checkbox" value="<%= ingredients[i].name %>" <%= ingredients[i].inStock ? "checked" : "" %> />
+            <%= ingredients[i].name %>
+            <br>
+          <% } %>
+          <input type="submit" value="Szukaj">
+        </form>
     <% } %>
+    <h2>Recipes:</h2>
+    <ul id="recipesList"></ul>
    
   </body>
 </html>
